@@ -42,7 +42,7 @@ echo_content() {
 Memu_Items=(
 	"退出"
 	"运行"
-	"Docker管理"
+	"Docker工具"
 )
 
 Rand_Str=\$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)

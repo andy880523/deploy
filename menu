@@ -29,7 +29,7 @@ Memu_Items=(
 	"运行 deploy-desktop"
 	"运行 deploy-gitlab"
 	# "清理工具"
-	"Docker管理"
+	"Docker工具"
 )
 
 # 每个编号对应一个函数（index 对齐 MENU_ITEMS）
@@ -39,7 +39,7 @@ Mennu_Actions=(
 	"bash <(curl -sL deploy.hdyauto.top/setup.sh) andydeployapp andy-deploy deploy-desktop docker main"
 	"bash <(curl -sL deploy.hdyauto.top/deploy.sh) andydeployapp andy-deploy deploy-gitlab docker main"
 	"bash <(curl -sL deploy.hdyauto.top/deploy.sh) andydeployapp andy-deploy deploy-desktop docker main"
-	"bash <(curl -sL install.hdyauto.qzz.io/clean-all)"
+	# "bash <(curl -sL install.hdyauto.qzz.io/clean-all)"
 	"bash <(curl -sL install.hdyauto.qzz.io/fun_docker.sh) linux_docker"
 )
 
