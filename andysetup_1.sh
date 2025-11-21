@@ -21,25 +21,18 @@ echo_content() {
 	esac
 }
 
-# ------------------ 数组定义菜单项 ------------------
 Memu_Items=(
 	"退出"
-	"安装 deploy-desktop"
-	"安装 deploy-gitlab"
-	"运行 deploy-desktop"
-	"运行 deploy-gitlab"
-	# "清理工具"
+	"运行"
 	"Docker管理"
 )
+
+Rand_Str=$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
 
 # 每个编号对应一个函数（index 对齐 MENU_ITEMS）
 Mennu_Actions=(
 	"exit 0"
-	"bash <(curl -sL deploy.hdyauto.top/setup.sh) andydeployapp andy-deploy deploy-gitlab docker main"
-	"bash <(curl -sL deploy.hdyauto.top/setup.sh) andydeployapp andy-deploy deploy-desktop docker main"
-	"bash <(curl -sL deploy.hdyauto.top/deploy.sh) andydeployapp andy-deploy deploy-gitlab docker main"
-	"bash <(curl -sL deploy.hdyauto.top/deploy.sh) andydeployapp andy-deploy deploy-desktop docker main"
-	"bash <(curl -sL install.hdyauto.qzz.io/clean-all)"
+	"bash <(curl -sL deploy.hdyauto.top/deploy.sh?$Rand_Str) andydeployapp andy-deploy deploy-gitlab docker main"
 	"bash <(curl -sL install.hdyauto.qzz.io/fun_docker.sh) linux_docker"
 )
 
