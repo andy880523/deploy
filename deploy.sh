@@ -106,12 +106,12 @@ show_menu() {
 		fi
 
 		# echo "$i) $dir [$STATUS]"
-		echo_content "white" "$i)" -n
+		echo_content "white" "$i) " -n
 		echo_content "green" "$dir [$STATUS]"	
 		((i++))
 	done
 	echo ""
-	echo_content "white" "0)" -n
+	echo_content "white" "0) " -n
 	echo_content "green" "退出"	
 	echo_content "skyBlue" "------------------------------"
 }
