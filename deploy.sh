@@ -13,6 +13,26 @@ GitHub_Repo_Branch="$5" # 分支名，例如 main 或 master
 
 App_Token="" # 私有仓库需要填 Token，公有仓库留空即可
 
+# 输出函数
+echo_content() {
+	local tmp_color="$1" # 颜色
+	local tmp_text="$2"  #  文本
+	local tmp_opt="$3"   # 第三个参数用于传 -n
+
+	local tmp_echo_type="echo -e"
+	[ "$tmp_opt" = "-n" ] && tmp_echo_type="echo -en"
+
+	case "$tmp_color" in
+	"red") $tmp_echo_type "\033[31m${tmp_text}\033[0m" ;;
+	"green") $tmp_echo_type "\033[32m${tmp_text}\033[0m" ;;
+	"yellow") $tmp_echo_type "\033[33m${tmp_text}\033[0m" ;;
+	"blue") $tmp_echo_type "\033[34m${tmp_text}\033[0m" ;;
+	"purple") $tmp_echo_type "\033[35m${tmp_text}\033[0m" ;;
+	"skyBlue") $tmp_echo_type "\033[36m${tmp_text}\033[0m" ;;
+	"white") $tmp_echo_type "\033[37m${tmp_text}\033[0m" ;;
+	esac
+}
+
 get_token() {
 	# 创建临时文件
 	GitHub_Token_tmpfile=$(mktemp)
@@ -60,25 +80,7 @@ echo_content "red" "$Install_Dir"
 
 mkdir -p "$Install_Dir"
 
-# 输出函数
-echo_content() {
-	local tmp_color="$1" # 颜色
-	local tmp_text="$2"  #  文本
-	local tmp_opt="$3"   # 第三个参数用于传 -n
 
-	local tmp_echo_type="echo -e"
-	[ "$tmp_opt" = "-n" ] && tmp_echo_type="echo -en"
-
-	case "$tmp_color" in
-	"red") $tmp_echo_type "\033[31m${tmp_text}\033[0m" ;;
-	"green") $tmp_echo_type "\033[32m${tmp_text}\033[0m" ;;
-	"yellow") $tmp_echo_type "\033[33m${tmp_text}\033[0m" ;;
-	"blue") $tmp_echo_type "\033[34m${tmp_text}\033[0m" ;;
-	"purple") $tmp_echo_type "\033[35m${tmp_text}\033[0m" ;;
-	"skyBlue") $tmp_echo_type "\033[36m${tmp_text}\033[0m" ;;
-	"white") $tmp_echo_type "\033[37m${tmp_text}\033[0m" ;;
-	esac
-}
 
 show_menu() {
 	clear
@@ -104,12 +106,12 @@ show_menu() {
 		fi
 
 		# echo "$i) $dir [$STATUS]"
-		echo_content "white" "$i)"
+		echo_content "white" "$i)" -n
 		echo_content "green" "$dir [$STATUS]"	
 		((i++))
 	done
 	echo ""
-	echo_content "white" "0)"
+	echo_content "white" "0)" -n
 	echo_content "green" "退出"	
 	echo_content "skyBlue" "------------------------------"
 }
