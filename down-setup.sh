@@ -3,7 +3,7 @@
 
 set -e
 
-App_Name="$1"
+Sh_Name="$1"            # sh 名字
 GitHub_User="$2"        # GitHub 用户名或组织名
 GitHub_Repo_Name="$3"   # 仓库名
 GitHub_Path="$4"        # 仓库子目录
@@ -17,7 +17,7 @@ echo "👉 正在创建 $SCRIPT_NAME ..."
 cat >$SCRIPT_NAME <<EOF
 #!/bin/bash
 RAND_STR=\$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
-bash <(curl -sL i.hdyauto.top/down-install.sh?\$RAND_STR) $App_Name $GitHub_User $GitHub_Repo_Name $GitHub_Path $GitHub_Repo_Branch
+bash <(curl -sL i.hdyauto.top/down-install.sh?\$RAND_STR) $Sh_Name $GitHub_User $GitHub_Repo_Name $GitHub_Path $GitHub_Repo_Branch
 EOF
 
 # 添加执行权限
