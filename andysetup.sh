@@ -45,23 +45,23 @@ main() {
 		echo_content "skyBlue" "============================"
 		echo_content "red" " 安装菜单 "
 		echo_content "skyBlue" "============================"
-		for i in ""; do
+		for i in "${!Memu_Items[@]}"; do
 			((i == 0)) && continue
-			echo_content "white" " 0) " -n
-			echo_content "green" ""
+			echo_content "white" " $((i))) " -n
+			echo_content "green" "${Memu_Items[$i]}"
 		done
 		echo ""
 		echo_content "white" " 0) " -n
-		echo_content "green" ""
+		echo_content "green" "${Memu_Items[0]}"
 		echo_content "skyBlue" "============================"
 		echo_content "skyBlue" "请选择操作: " -n
 		read -r choice
 
 		# 转为下标（减 1）
-		if [[ "" =~ ^[0-9]+$ ]] && [ "" -ge 0 ] && [ "" -le "0" ]; then
-			index=0
-			echo_content "skyBlue" ">> 执行: "
-			eval ""
+		if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 0 ] && [ "$choice" -le "${#Memu_Items[@]}" ]; then
+			index=$((choice))
+			echo_content "skyBlue" ">> 执行: ${Memu_Items[$index]}"
+			eval "${Mennu_Actions[$index]}"
 		else
 			echo_content "skyBlue" "无效选择。"
 		fi
