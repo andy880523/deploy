@@ -15,23 +15,35 @@ App_Token="" # 私有仓库需要填 Token，公有仓库留空即可
 
 # 输出函数
 echo_content() {
-	local tmp_color="$1" # 颜色
-	local tmp_text="$2"  #  文本
-	local tmp_opt="$3"   # 第三个参数用于传 -n
-
-	local tmp_echo_type="echo -e"
-	[ "$tmp_opt" = "-n" ] && tmp_echo_type="echo -en"
-
-	case "$tmp_color" in
-	"red") $tmp_echo_type "\033[31m${tmp_text}\033[0m" ;;
-	"green") $tmp_echo_type "\033[32m${tmp_text}\033[0m" ;;
-	"yellow") $tmp_echo_type "\033[33m${tmp_text}\033[0m" ;;
-	"blue") $tmp_echo_type "\033[34m${tmp_text}\033[0m" ;;
-	"purple") $tmp_echo_type "\033[35m${tmp_text}\033[0m" ;;
-	"skyBlue") $tmp_echo_type "\033[36m${tmp_text}\033[0m" ;;
-	"white") $tmp_echo_type "\033[37m${tmp_text}\033[0m" ;;
-	esac
+    local color="$1"
+    shift
+    local tmp_opt=""
+    # 判断最后一个参数是否为 -n
+    if [ "${!#}" = "-n" ]; then
+        tmp_opt="-n"
+        # 删除最后一个参数
+        set -- "${@:1:$(($#-1))}"
+    fi
+    local fmt="$1"
+    shift
+    local color_code=""
+    case "$color" in
+        red) color_code="\033[31m" ;;
+        green) color_code="\033[32m" ;;
+        yellow) color_code="\033[33m" ;;
+        blue) color_code="\033[34m" ;;
+        purple) color_code="\033[35m" ;;
+        skyBlue) color_code="\033[36m" ;;
+        white) color_code="\033[37m" ;;
+    esac
+    local reset="\033[0m"
+    if [ "$tmp_opt" = "-n" ]; then
+        printf "${color_code}${fmt}${reset}" "$@"
+    else
+        printf "${color_code}${fmt}${reset}\n" "$@"
+    fi
 }
+
 
 get_token() {
 	# 创建临时文件
@@ -81,51 +93,54 @@ echo_content "red" "$Install_Dir"
 mkdir -p "$Install_Dir"
 
 show_menu() {
-	clear
-	echo_content "skyBlue" "=============================="
-	echo_content "red" "🚀 远程应用安装菜单"
-	echo_content "red" "仓库: ${GitHub_User}/${GitHub_Repo_Name} (${GitHub_Repo_Branch})"
-	echo_content "skyBlue" "=============================="
+    clear
+    echo_content skyBlue "=============================="
+    echo_content red "🚀 远程应用安装菜单"
+    echo_content red "仓库: ${GitHub_User}/${GitHub_Repo_Name} (${GitHub_Repo_Branch})"
+    echo_content skyBlue "=============================="
 
-	local i=1
-	for dir in $App_Dir_List; do
-		if fungit_is_installed "$Install_Dir" "$dir"; then
+    # 计算最大目录长度
+    local max_len=0
+    for dir in $App_Dir_List; do
+        [ ${#dir} -gt $max_len ] && max_len=${#dir}
+    done
 
-			local local_sha=$(fungit_get_local_version "$Install_Dir" "$dir")
-			local remote_sha=$(fungit_get_remote_latest_sha "$dir" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
+    local i=1
+    for dir in $App_Dir_List; do
+        # 安装状态
+        local STATUS="⚪ 未安装"
+        local STATUS_COLOR="white"
+        if fungit_is_installed "$Install_Dir" "$dir"; then
+            local local_sha=$(fungit_get_local_version "$Install_Dir" "$dir")
+            local remote_sha=$(fungit_get_remote_latest_sha "$dir" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
+            if [ "$local_sha" = "$remote_sha" ]; then
+                STATUS="🟢 已安装（最新）"
+                STATUS_COLOR="green"
+            else
+                STATUS="🟡 已安装（可更新）"
+                STATUS_COLOR="yellow"
+            fi
+        fi
 
-			if [ "$local_sha" = "$remote_sha" ]; then
-				STATUS="🟢 已安装（最新）"
-			else
-				STATUS="🟡 已安装（可更新）"
-			fi
-		else
-			STATUS="⚪ 未安装"
-		fi
-
-		# ② 打印编号
-		echo_content "white" "$i) " -n
-
-		# ③ 打印目录
-		echo_content "green" "$dir " -n
-
-		# ④ 状态
-		echo_content "skyBlue" "[$STATUS]" -n
-		
-		# ⑤ 获取并打印描述
+        # 获取描述
         local desc=$(get_desc_for_dir "$dir" "$App_Dir_Desc")
-		# 过长自动截断
-		[[ ${#desc} -gt 60 ]] && desc="${desc:0:60}..."
-		echo_content "blue" " —— $desc"
+        [[ ${#desc} -gt 50 ]] && desc="${desc:0:50}..."
 
+        # ✅ 输出：编号 + 目录 + 状态 + 描述，保证 -n 正确
+        echo_content white "%2s) " "$i" "-n"
+        echo_content green "%-${max_len}s " "$dir" "-n"
+        echo_content "$STATUS_COLOR" "[%-15s]  " "$STATUS" "-n"
+        echo_content blue "%s" "$desc"
 
-		((i++))
-	done
-	echo ""
-	echo_content "white" "0) " -n
-	echo_content "green" "退出"
-	echo_content "skyBlue" "------------------------------"
+        ((i++))
+    done
+
+    echo ""
+    echo_content white "0) " "-n"
+    echo_content green "退出"
+    echo_content skyBlue "------------------------------"
 }
+
 
 # ======= 主循环 =======
 main_loop() {
