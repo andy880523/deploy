@@ -103,17 +103,21 @@ show_menu() {
 			STATUS="⚪ 未安装"
 		fi
 
+		# ② 打印编号
 		echo_content "white" "$i) " -n
-		# echo_content "green" "$dir [$STATUS]" -n
-		echo_content "green" "$dir" -n
-		echo_content "skyBlue" "[$STATUS]" -n
 
-		# 获取 desc.txt 作为备注
-		local note=$(fungit_get_dir_note "$dir" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
-		# 如果备注太长，可截断，例如 50 个字符
-		[[ ${#note} -gt 50 ]] && note="${note:0:50}..."
-		# echo "$note"
-		[[ -n "$note" ]] && echo_content "blue" " —— $note"
+		# ③ 打印目录
+		echo_content "green" "$dir " -n
+
+		# ④ 状态
+		echo_content "skyBlue" "[$STATUS]" -n
+		
+		# ⑤ 获取并打印描述
+        local desc=$(get_desc_for_dir "$dir" "$App_Dir_Desc")
+		# 过长自动截断
+		[[ ${#desc} -gt 60 ]] && desc="${desc:0:60}..."
+		echo_content "blue" " —— $desc"
+
 
 		((i++))
 	done
@@ -170,6 +174,42 @@ main_loop() {
 	done
 }
 
+# ===== 读取 desc.txt 内容 =====
+fungit_get_desc_text() {
+    local base_path="$1"
+    local app_token="$2"
+    local github_user="$3"
+    local github_repo_name="$4"
+    local github_repo_branch="$5"
+
+    local api_url="https://api.github.com/repos/${github_user}/${github_repo_name}/contents"
+    local desc_file_url="${api_url}/${base_path}/desc.txt?ref=${github_repo_branch}"
+
+    local auth_header=""
+    [ -n "$app_token" ] && auth_header="-H \"Authorization: token $app_token\""
+
+    local desc_base64
+    desc_base64=$(eval curl -s $auth_header "$desc_file_url" | jq -r '.content // empty')
+
+    [ -z "$desc_base64" ] || [ "$desc_base64" = "null" ] && {
+        echo ""
+        return
+    }
+
+    echo "$desc_base64" | base64 --decode
+}
+# ===== 获取子目录对应描述 =====
+get_desc_for_dir() {
+    local dir="$1"
+    local desc_text="$2"
+
+    # 查找 key = dir 的行
+    local desc
+    desc=$(echo "$desc_text" | awk -F '=' -v key="$dir" '$1 == key { $1=""; sub(/^=/,"",$0); print $0 }')
+
+    # 如果没有匹配，返回空
+    echo "${desc:-}"
+}
 # ======= 启动程序 =======
 
 # . ./fun_git.sh
@@ -186,5 +226,8 @@ App_Dir_List=$(fungit_get_dir_list "$GitHub_Path" "$App_Token" "$GitHub_User" "$
 # echo "🧩 调试：获取到的目录列表如下："
 # echo "$App_Dir_List"
 # sleep 5
+
+App_Dir_Desc=$(fungit_get_desc_text "$GitHub_Path" "$App_Token" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
+# echo "$App_Dir_Desc"
 
 main_loop
