@@ -43,12 +43,12 @@ EOF
 ### =================================================
 get_github_app_token() {
 	# tmp_file=$(mktemp)
-	# curl -sSL https://tool.hdyauto.qzz.io/git/get_github_token.sh -o "$tmp_file"
+	# curl -sSL https://tool.hdyauto.qzz.io/github/get_github_token.sh -o "$tmp_file"
 	# . "$tmp_file"
 	# rm -f "$tmp_file"
 
 	# 下载脚本内容到变量
-	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/git/get_github_token.sh)
+	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/github/get_github_token.sh)
 	# 使用 eval 执行脚本内容（等同于 source）
 	eval "$script_content"
 	token=$(get_github_token "$APP_ID" "$INSTALLATION_ID" "$PRIVATE_KEY")

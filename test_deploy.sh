@@ -1,1 +1,1 @@
-./deploy.sh andydeployapp andy-deploy deploy-gitlab docker main
+./deploy_1.sh andydeployapp andy-deploy deploy-gitlab docker main
