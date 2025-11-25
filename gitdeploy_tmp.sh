@@ -12,7 +12,7 @@ GitHub_Repo_Branch="$5" # 分支名，例如 main 或 master
 App_Token="$6"          # 私有仓库需要填 Token，公有仓库留空即可
 Install_Dir="$7"        # 安装目录
 
-# 输出函数
+# ======= 输出函数 =======
 echo_content() {
 	local color="$1"
 	shift
@@ -20,22 +20,23 @@ echo_content() {
 	# 判断最后一个参数是否为 -n
 	if [ "${!#}" = "-n" ]; then
 		tmp_opt="-n"
-		# 删除最后一个参数
-		set -- "${@:1:$(($# - 1))}"
+		set -- "${@:1:$(($# - 1))}" # 删除最后一个参数
 	fi
+
 	local fmt="$1"
 	shift
 	local color_code=""
 	case "$color" in
-	red) color_code="\033[31m" ;;
-	green) color_code="\033[32m" ;;
-	yellow) color_code="\033[33m" ;;
-	blue) color_code="\033[34m" ;;
-	purple) color_code="\033[35m" ;;
-	skyBlue) color_code="\033[36m" ;;
-	white) color_code="\033[37m" ;;
+		red) color_code="\033[31m" ;;
+		green) color_code="\033[32m" ;;
+		yellow) color_code="\033[33m" ;;
+		blue) color_code="\033[34m" ;;
+		purple) color_code="\033[35m" ;;
+		skyBlue) color_code="\033[36m" ;;
+		white) color_code="\033[37m" ;;
 	esac
 	local reset="\033[0m"
+
 	if [ "$tmp_opt" = "-n" ]; then
 		printf "${color_code}${fmt}${reset}" "$@"
 	else
@@ -43,45 +44,31 @@ echo_content() {
 	fi
 }
 
-load_fun_git() {
-
-	# tmp_file=$(mktemp)
-	# curl -sSL https://tool.hdyauto.qzz.io/fun_git.sh -o "$tmp_file"
-	# . "$tmp_file"
-	# rm -f "$tmp_file"
-
-	# 下载脚本内容到变量
-	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/fun_git.sh)
-	# 使用 eval 执行脚本内容（等同于 source）
+# ======= 加载远程脚本 =======
+load_remote_script() {
+	local url="$1"
+	local script_content
+	script_content=$(curl -sSL "$url")
 	eval "$script_content"
+}
 
+load_fun_git() {
+	load_remote_script "https://tool.hdyauto.qzz.io/fun_git.sh"
 }
 
 load_fun_deps() {
-
-	# tmp_file=$(mktemp)
-	# curl -sSL https://tool.hdyauto.qzz.io/fun_deps.sh -o "$tmp_file"
-	# . "$tmp_file"
-	# rm -f "$tmp_file"
-
-	# 下载脚本内容到变量
-	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/fun_deps.sh)
-	# 使用 eval 执行脚本内容（等同于 source）
-	eval "$script_content"
-
+	load_remote_script "https://tool.hdyauto.qzz.io/fun_deps.sh"
 }
 
-# Install_Dir="/home/deploy"
-
-# 智能判断安装目录
+# ======= 安装目录处理 =======
 if [ "$(uname)" = "Darwin" ]; then
 	Install_Dir="$HOME/$Install_Dir"
 fi
 
 echo_content "red" "$Install_Dir"
-
 mkdir -p "$Install_Dir"
 
+# ======= 菜单显示 =======
 show_menu() {
 	clear
 	echo_content skyBlue "=============================="
@@ -97,9 +84,9 @@ show_menu() {
 
 	local i=1
 	for dir in $App_Dir_List; do
-		# 安装状态
 		local STATUS="⚪ 未安装"
 		local STATUS_COLOR="white"
+
 		if fungit_is_installed "$Install_Dir" "$dir"; then
 			local local_sha=$(fungit_get_local_version "$Install_Dir" "$dir")
 			local remote_sha=$(fungit_get_remote_latest_sha "$dir" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
@@ -112,11 +99,9 @@ show_menu() {
 			fi
 		fi
 
-		# 获取描述
 		local desc=$(get_desc_for_dir "$dir" "$App_Dir_Desc")
 		[[ ${#desc} -gt 50 ]] && desc="${desc:0:50}..."
 
-		# ✅ 输出：编号 + 目录 + 状态 + 描述，保证 -n 正确
 		echo_content white "%2s) " "$i" "-n"
 		echo_content green "%-${max_len}s " "$dir" "-n"
 		echo_content "$STATUS_COLOR" "[%-15s]  " "$STATUS" "-n"
@@ -136,12 +121,12 @@ main_loop() {
 	while true; do
 		show_menu
 		read -p "请输入编号以安装/卸载: " choice
-		if [ "$choice" == "0" ]; then
-			echo_content "yellow" "👋 再见！"
-			exit 0
-		fi
 
-		local selected=$(echo "$App_Dir_List" | sed -n "${choice}p")
+		[ "$choice" == "0" ] && { echo_content "yellow" "👋 再见！"; exit 0; }
+
+		local selected
+		selected=$(echo "$App_Dir_List" | sed -n "${choice}p")
+
 		if [ -z "$selected" ]; then
 			echo_content "yellow" "❌ 输入错误，请重新选择。"
 			sleep 1
@@ -156,18 +141,10 @@ main_loop() {
 			read -p "请输入编号: " action
 
 			case "$action" in
-			1)
-				fungit_update_app "$Install_Dir" "$selected" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch"
-				;;
-			2)
-				fungit_uninstall_app "$Install_Dir" "$selected"
-				;;
-			0)
-				continue
-				;;
-			*)
-				echo_content "yellow" "❌ 无效选项"
-				;;
+				1) fungit_update_app "$Install_Dir" "$selected" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch" ;;
+				2) fungit_uninstall_app "$Install_Dir" "$selected" ;;
+				0) continue ;;
+				*) echo_content "yellow" "❌ 无效选项" ;;
 			esac
 		else
 			fungit_download_app "$Install_Dir" "$selected" "$App_Token" "$GitHub_Path" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch"
@@ -188,7 +165,7 @@ load_fun_deps
 fundeps_check_install_deps   # 安装依赖
 fundeps_check_install_docker # 安装 Docker
 
-# 指定要获取的目录（相对仓库根路径）
+# 获取仓库目录列表和描述
 App_Dir_List=$(fungit_get_dir_list "$GitHub_Path" "$App_Token" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
 App_Dir_Desc=$(fungit_get_desc_text "$GitHub_Path" "$App_Token" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Repo_Branch")
 

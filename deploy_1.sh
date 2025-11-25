@@ -48,4 +48,5 @@ deploy() {
     rm -f "$tmp_script"
 }
 
-deploy
+# deploy
+./gitdeploy_tmp.sh "$App_Name" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Path" "$GitHub_Repo_Branch" "$App_Token" "$Install_Dir"
