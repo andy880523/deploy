@@ -42,7 +42,7 @@ Mennu_Actions=(
 	"bash <(curl -sL andydeploy.hdyauto.top/deploy/setup_gitlab.sh?$Rand_Str)"
 	"bash <(curl -sL andydeploy.hdyauto.top/deploy/deploy_gitlab.sh?$Rand_Str)"
 	# "bash <(curl -sL tool.hdyauto.qzz.io/clean-all)"
-	"bash <(curl -sL tool.hdyauto.qzz.io/fun_docker.sh?$Rand_Str) linux_docker"
+	"bash <(curl -sL tool.hdyauto.qzz.io/sys/fun_docker.sh?$Rand_Str) linux_docker"
 )
 
 main() {
