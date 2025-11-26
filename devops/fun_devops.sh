@@ -4,7 +4,7 @@ get_token() {
 	app_name="$1" # App名字
 
 	# 下载脚本内容到变量
-	local script_content=$(curl -sSL https://andydeploy.hdyauto.top/app/$app_name.sh)
+	local script_content=$(curl -sSL https://devopsandy.hdyauto.qzz.io/app/$app_name.sh)
 	# 使用 eval 执行脚本内容（等同于 source）
 	eval "$script_content"
 
@@ -26,7 +26,7 @@ setup() {
 	cat >$setup_file_name <<EOF
 #!/bin/bash
 Rand_Str=\$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
-bash <(curl -sL andydeploy.hdyauto.top/menu/setup?\$Rand_Str) $sh_name $gitHub_user $gitHub_repo_name $gitHub_path $gitHub_repo_branch
+bash <(curl -sL devopsandy.hdyauto.qzz.io/menu/setup?\$Rand_Str) $sh_name $gitHub_user $gitHub_repo_name $gitHub_path $gitHub_repo_branch
 EOF
 
 	# 添加执行权限

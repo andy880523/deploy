@@ -12,7 +12,7 @@ remote_setup() {
 
 	Rand_Str=$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
 	# 下载脚本到变量
-	local script_content=$(curl -sSL andydeploy.hdyauto.top/devops/fun_devops.sh?$Rand_Str)
+	local script_content=$(curl -sSL devopsandy.hdyauto.qzz.io/devops/fun_devops.sh?$Rand_Str)
 
 	# 写入临时文件
 	local tmp_script=$(mktemp)
