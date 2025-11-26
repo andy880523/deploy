@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Sh_Name=andydeployapp          # sh 名字
+Sh_Name=andydevopsapp          # sh 名字
 GitHub_User=andy-devops        # GitHub 用户名或组织名
 GitHub_Repo_Name=devops-gitlab # 仓库名
 GitHub_Path=docker             # 仓库子目录
