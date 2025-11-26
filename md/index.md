@@ -1,4 +1,4 @@
-# deploy-gitlab
+# devops-gitlab
 
 <div style="display:flex;align-items:center;gap:10px;">
   <code>bash &lt;(curl -sL andydeploy.hdyauto.top/devops/devops_gitlab.sh)</code>
