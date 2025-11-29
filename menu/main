@@ -28,7 +28,7 @@ Memu_Items=(
 	"部署 devops-desktop"
 	"安装 devops-gitlab"
 	"部署 devops-gitlab"
-	"Postman工具"	
+	"Postman工具"
 )
 
 Rand_Str=$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
