@@ -3,7 +3,7 @@
 Sh_Name=andydevopsapp          # sh 名字
 GitHub_User=andy-devops        # GitHub 用户名或组织名
 GitHub_Repo_Name=devops-gitlab # 仓库名
-GitHub_Path=docker             # 仓库子目录
+GitHub_Path=podman             # 仓库子目录
 GitHub_Repo_Branch=main        # 分支名，例如 main 或 master
 Setup_Name="andy.sh"           # 安装名字
 

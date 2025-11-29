@@ -18,7 +18,8 @@ setup() {
 	gitHub_repo_name="$3"   # 仓库名
 	gitHub_path="$4"        # 仓库子目录
 	gitHub_repo_branch="$5" # 分支名，例如 main 或 master
-	setup_file_name="$6"    # "andy.sh"
+	install_dir="$6"        # 安装目录	
+	setup_file_name="$7"    # "andy.sh"
 
 	echo "👉 正在创建 $setup_file_name ..."
 
@@ -26,7 +27,7 @@ setup() {
 	cat >$setup_file_name <<EOF
 #!/bin/bash
 Rand_Str=\$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)
-bash <(curl -sL devopsandy.hdyauto.qzz.io/menu/setup?\$Rand_Str) $sh_name $gitHub_user $gitHub_repo_name $gitHub_path $gitHub_repo_branch
+bash <(curl -sL devopsandy.hdyauto.qzz.io/menu/setup?\$Rand_Str) $sh_name $gitHub_user $gitHub_repo_name $gitHub_path $gitHub_repo_branch $install_dir
 EOF
 
 	# 添加执行权限
