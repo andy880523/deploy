@@ -36,32 +36,41 @@ Menu_Items_Json=$(printf '%s\n' "${Menu_Items[@]}" | jq -R . | jq -s .)
 Menu_Actions_Json=$(printf '%s\n' "${Menu_Actions[@]}" | jq -R . | jq -s .)
 
 # ------------------ 调用 setup（强制用 bash） ------------------
-# 下载脚本到变量
-local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/setup?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
-# 写入临时文件
-local tmp_script=$(mktemp)
-# echo "$script_content" >"$tmp_script"
-chmod +x "$tmp_script"
-# 正确传参
-"$tmp_script" \
-	"$Token_Sh_Url" \
-	"$GitHub_User" \
-	"$GitHub_Repo_Name" \
-	"$GitHub_Path" \
-	"$GitHub_Repo_Branch" \
-	"$Install_Dir" \
-	"$Menu_Items_Json" \
-	"$Menu_Actions_Json"
+remote_main() {
 
-rm -f "$tmp_script"
+	# 下载脚本到变量
+	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/setup?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
+	# 写入临时文件
+	local tmp_script=$(mktemp)
+	# echo "$script_content" >"$tmp_script"
+	chmod +x "$tmp_script"
+	# 正确传参
+	"$tmp_script" \
+		"$Token_Sh_Url" \
+		"$GitHub_User" \
+		"$GitHub_Repo_Name" \
+		"$GitHub_Path" \
+		"$GitHub_Repo_Branch" \
+		"$Install_Dir" \
+		"$Menu_Items_Json" \
+		"$Menu_Actions_Json"
 
-# # ------------------ 调用 setup（强制用 bash） ------------------
-# bash ../devopstool/menu/setup \
-# 	"$Token_Sh_Url" \
-# 	"$GitHub_User" \
-# 	"$GitHub_Repo_Name" \
-# 	"$GitHub_Path" \
-# 	"$GitHub_Repo_Branch" \
-# 	"$Install_Dir" \
-# 	"$Menu_Items_Json" \
-# 	"$Menu_Actions_Json"
+	rm -f "$tmp_script"
+
+}
+
+# ------------------ 调用 setup（强制用 bash） ------------------
+local_main() {
+	bash ../devopstool/menu/setup \
+		"$Token_Sh_Url" \
+		"$GitHub_User" \
+		"$GitHub_Repo_Name" \
+		"$GitHub_Path" \
+		"$GitHub_Repo_Branch" \
+		"$Install_Dir" \
+		"$Menu_Items_Json" \
+		"$Menu_Actions_Json"
+}
+
+remote_main
+# local_main
