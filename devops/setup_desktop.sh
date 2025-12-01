@@ -7,7 +7,7 @@ GitHub_Path=pod                 # 仓库子目录
 GitHub_Repo_Branch=main         # 分支名，例如 main 或 master
 # Install_Dir=/home/wkdevops      # 安装目录
 Install_Dir=./wkdesktop # 安装目录
-Setup_Name="andy.sh"            # 安装名字
+Setup_Name="andy.sh"    # 安装名字
 
 # --------------- 远程测试调用 --------------- #
 remote_setup() {
