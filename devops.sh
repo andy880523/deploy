@@ -125,19 +125,19 @@ local_setup() {
 #--------------- 			 --------------- #
 
 devops_desktop() {
-	local sh_name=andydevopsapp                                # sh 名字
+	local sh_name=devopsandy.hdyauto.qzz.io/app/andydevopsapp.sh                                # sh 名字
 	local github_user=andy-devops                              # GitHub 用户名或组织名
 	local github_repo_name=devops-desktop                      # 仓库名
 	local github_repo_branch=main                              # 分支名，例如 main 或 master
 	local github_path=pod                                      # 仓库子目录
 	local install_dir=$(prepare_install_dir "/home/wkdesktop") # 安装目录
-
-	remote_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
-	# local_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
+# https://devopsandy.hdyauto.qzz.io/app/$app_name.sh
+	# remote_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
+	local_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
 }
 
 setup_desktop() {
-	local sh_name=andydevopsapp                                # sh 名字
+	local sh_name=devopsandy.hdyauto.qzz.io/app/andydevopsapp.sh                                # sh 名字
 	local github_user=andy-devops                              # GitHub 用户名或组织名
 	local github_repo_name=devops-desktop                      # 仓库名
 	local github_repo_branch=main                              # 分支名，例如 main 或 master
@@ -151,7 +151,7 @@ setup_desktop() {
 }
 
 devops_gitlab() {
-	local sh_name=andydevopsapp                               # sh 名字
+	local sh_name=devopsandy.hdyauto.qzz.io/app/andydevopsapp.sh                               # sh 名字
 	local github_user=andy-devops                             # GitHub 用户名或组织名
 	local github_repo_name=devops-gitlab                      # 仓库名
 	local github_repo_branch=main                             # 分支名，例如 main 或 master
@@ -163,7 +163,7 @@ devops_gitlab() {
 }
 
 setup_gitlab() {
-	local sh_name=andydevopsapp                               # sh 名字
+	local sh_name=devopsandy.hdyauto.qzz.io/app/andydevopsapp.sh                               # sh 名字
 	local github_user=andy-devops                             # GitHub 用户名或组织名
 	local github_repo_name=devops-gitlab                      # 仓库名
 	local github_repo_branch=main                             # 分支名，例如 main 或 master
@@ -172,8 +172,8 @@ setup_gitlab() {
 	local setup_file_name="andy.sh"                           # 安装文件名
 	local setup_url="devopsandy.hdyauto.qzz.io/setup"
 
-	# remote_setup "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"
-	local_setup "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"
+	remote_setup "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"
+	# local_setup "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"
 }
 
 "$@"
