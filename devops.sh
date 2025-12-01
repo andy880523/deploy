@@ -133,8 +133,8 @@ devops_desktop() {
 	github_path=pod                                      # 仓库子目录
 	install_dir=$(prepare_install_dir "/home/wkdesktop") # 安装目录
 
-	# remote_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
-	local_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
+	remote_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
+	# local_deploy "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
 }
 
 setup_desktop() {
@@ -176,3 +176,5 @@ setup_gitlab() {
 	remote_setup "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"
 	# local_setup "$sh_name" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"	
 }
+
+"$@"
