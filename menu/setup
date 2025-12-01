@@ -56,35 +56,7 @@ Mennu_Actions=(
 	"bash <(curl -sL tool.hdyauto.qzz.io/sys/fun_podman.sh?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) linux_podman"
 	"bash <(curl -sL devopsandy.hdyauto.qzz.io/devops.sh?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) remote_deploy "$GitHub_Repo_Name" "$GitHub_Repo_Branch" "$GitHub_Path" "$Install_Dir" "$sh_name"
 )
-
-
-remote_deploy() {
-
-	echo "最终安装目录是：$install_dir"
-
-	# 下载脚本到变量
-	local script_content=$(curl -sSL devopsandy.hdyauto.qzz.io/devops.sh?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16) remote_deploy )
-
-	# 写入临时文件
-	local tmp_script=$(mktemp)
-	echo "$script_content" >"$tmp_script"
-	chmod +x "$tmp_script"
-
-	# 导入脚本到当前 shell
-	source "$tmp_script"
-
-	if declare -f deploy >/dev/null 2>&1; then
-		deploy "$Sh_Name" "$GitHub_User" "$GitHub_Repo_Name" "$GitHub_Path" "$GitHub_Repo_Branch" "$Install_Dir"
-	else
-		echo "❌ 远程脚本中没有定义 deploy"
-	fi
-
-	rm -f "$tmp_script"
-
-}
-
-
-
+# ------------------ 主函数 ------------------
 main() {
 
 	# ------------------ 主循环 ------------------
