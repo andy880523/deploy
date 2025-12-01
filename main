@@ -38,26 +38,21 @@ Menu_Actions_Json=$(printf '%s\n' "${Menu_Actions[@]}" | jq -R . | jq -s .)
 remote_main() {
 	# ------------------ 调用 setup（强制用 bash） ------------------
 	# 下载脚本到变量
-	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/setup?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
+	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/main?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
 	# 写入临时文件
 	local tmp_script=$(mktemp)
 	# echo "$script_content" >"$tmp_script"
 	chmod +x "$tmp_script"
 	# 正确传参
-	"$tmp_script" \
-		"$Menu_Items_Json" \
-		"$Menu_Actions_Json"
+	"$tmp_script" "$Menu_Items_Json" "$Menu_Actions_Json"
 
 	rm -f "$tmp_script"
 }
 
 local_main() {
 	# ------------------ 调用 setup（强制用 bash） ------------------
-	bash ../devopstool/menu/main \
-		"$Menu_Items_Json" \
-		"$Menu_Actions_Json"
-
+	bash ../devopstool/menu/main "$Menu_Items_Json" "$Menu_Actions_Json"
 }
 
-remote_main
-# local_main
+# remote_main
+local_main
