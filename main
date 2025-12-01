@@ -41,7 +41,7 @@ remote_main() {
 	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/main?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
 	# 写入临时文件
 	local tmp_script=$(mktemp)
-	# echo "$script_content" >"$tmp_script"
+	echo "$script_content" >"$tmp_script"
 	chmod +x "$tmp_script"
 	# 正确传参
 	"$tmp_script" "$Menu_Items_Json" "$Menu_Actions_Json"
