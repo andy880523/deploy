@@ -9,9 +9,6 @@ GitHub_Path="$4"        # 仓库子目录
 GitHub_Repo_Branch="$5" # 分支名，例如 main 或 master
 Install_Dir="$6"        # 安装目录
 
-
-
-
 # ------------------ 定义颜色输出函数 ------------------
 echo_content() {
 	local tmp_color="$1" # 颜色
@@ -39,7 +36,7 @@ Memu_Items=(
 	"安装 Podman"
 	"工具 Docker"
 	"工具 Postman"
-	"部署 ${GitHub_Path}"	
+	"部署 ${GitHub_Path}"
 )
 
 # 每个编号对应一个函数（index 对齐 MENU_ITEMS）

@@ -29,9 +29,8 @@ Memu_Items=(
 	"部署 desktop"
 	"部署 gitlab"
 	"工具 Docker"
-	"工具 Postman"	
+	"工具 Postman"
 )
-
 
 # 每个编号对应一个函数（index 对齐 MENU_ITEMS）
 Mennu_Actions=(
