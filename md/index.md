@@ -1,4 +1,4 @@
-# devops-gitlab
+# gitlab
 
 <div style="display:flex;align-items:center;gap:10px;">
   <code>bash &lt;(curl -sL devopsandy.hdyauto.qzz.io/devops?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) setup_gitlab</code>
@@ -7,7 +7,7 @@
   </button>
 </div>
 
-# devops-gitlab
+# deskto
 
 <div style="display:flex;align-items:center;gap:10px;">
   <code>bash &lt;(curl -sL devopsandy.hdyauto.qzz.io/devops?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) setup_desktop</code>
