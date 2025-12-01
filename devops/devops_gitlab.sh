@@ -6,7 +6,7 @@ GitHub_Repo_Name=devops-gitlab # 仓库名
 GitHub_Path=pod             # 仓库子目录
 GitHub_Repo_Branch=main        # 分支名，例如 main 或 master
 # Install_Dir=/home/wkdevops     # 安装目录
-Install_Dir=./wkdevops     # 安装目录
+Install_Dir=./wkgitlab     # 安装目录
 
 # # ======= 安装目录处理 =======
 # # 如果 Install_Dir 是绝对路径且不可写，改成用户目录
