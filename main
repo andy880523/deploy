@@ -2,7 +2,6 @@
 
 ###################################################
 
-
 # ------------------ 数组定义菜单项 ------------------
 Menu_Items=(
 	"退出"
@@ -29,29 +28,36 @@ Menu_Actions=(
 	"bash <(curl -sL tool.hdyauto.qzz.io/sys/fun_podman.sh?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) linux_podman"
 )
 
-
 # ------------------ 数组 → JSON ------------------
 Menu_Items_Json=$(printf '%s\n' "${Menu_Items[@]}" | jq -R . | jq -s .)
 Menu_Actions_Json=$(printf '%s\n' "${Menu_Actions[@]}" | jq -R . | jq -s .)
 
+# echo "Menu_Items_Json: $Menu_Items_Json"
+# echo "Menu_Actions_Json: $Menu_Actions_Json"
 
-echo "Menu_Items_Json: $Menu_Items_Json"
-echo "Menu_Actions_Json: $Menu_Actions_Json"
-# ------------------ 调用 setup（强制用 bash） ------------------
-# 下载脚本到变量
-local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/setup?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
-# 写入临时文件
-local tmp_script=$(mktemp)
-# echo "$script_content" >"$tmp_script"
-chmod +x "$tmp_script"
-# 正确传参
-"$tmp_script" \
-	"$Menu_Items_Json" \
-	"$Menu_Actions_Json"
+remote_main() {
+	# ------------------ 调用 setup（强制用 bash） ------------------
+	# 下载脚本到变量
+	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/setup?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
+	# 写入临时文件
+	local tmp_script=$(mktemp)
+	# echo "$script_content" >"$tmp_script"
+	chmod +x "$tmp_script"
+	# 正确传参
+	"$tmp_script" \
+		"$Menu_Items_Json" \
+		"$Menu_Actions_Json"
 
-rm -f "$tmp_script"
+	rm -f "$tmp_script"
+}
 
-# # ------------------ 调用 setup（强制用 bash） ------------------
-# bash ../devopstool/menu/main \
-# 	"$Menu_Items_Json" \
-# 	"$Menu_Actions_Json"
+local_main() {
+	# ------------------ 调用 setup（强制用 bash） ------------------
+	bash ../devopstool/menu/main \
+		"$Menu_Items_Json" \
+		"$Menu_Actions_Json"
+
+}
+
+remote_main
+# local_main
