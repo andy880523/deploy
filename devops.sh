@@ -11,7 +11,7 @@ load_fun_common
 
 # --------------- 远程部署调用 --------------- #
 remote_deploy() {
-	local token_sh_url="$1"             # sh 名字
+	local token_sh_url="$1"       # 获取token脚本连接
 	local github_user="$2"        # GitHub 用户名或组织名
 	local github_repo_name="$3"   # 仓库名
 	local github_repo_branch="$4" # 分支名，例如 main 或 master
@@ -42,7 +42,7 @@ remote_deploy() {
 
 # --------------- 本地部署测试调用 --------------- #
 local_deploy() {
-	local token_sh_url="$1"             # sh 名字
+	local token_sh_url="$1"       # 获取token脚本连接
 	local github_user="$2"        # GitHub 用户名或组织名
 	local github_repo_name="$3"   # 仓库名
 	local github_repo_branch="$4" # 分支名，例如 main 或 master
@@ -65,7 +65,7 @@ local_deploy() {
 
 # --------------- 远程安装调用 --------------- #
 remote_setup() {
-	local token_sh_url="$1"             # sh 名字
+	local token_sh_url="$1"       # 获取token脚本连接
 	local github_user="$2"        # GitHub 用户名或组织名
 	local github_repo_name="$3"   # 仓库名
 	local github_repo_branch="$4" # 分支名，例如 main 或 master
@@ -98,7 +98,7 @@ remote_setup() {
 
 # --------------- 本地安装测试调用 --------------- #
 local_setup() {
-	local token_sh_url="$1"             # sh 名字
+	local token_sh_url="$1"       # 获取token脚本连接
 	local github_user="$2"        # GitHub 用户名或组织名
 	local github_repo_name="$3"   # 仓库名
 	local github_repo_branch="$4" # 分支名，例如 main 或 master
@@ -122,24 +122,24 @@ local_setup() {
 #--------------- 			 --------------- #
 
 devops_desktop() {
-	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # sh 名字
-	local github_user=andy-devops                               # GitHub 用户名或组织名
-	local github_repo_name=devops-desktop                       # 仓库名
-	local github_repo_branch=main                               # 分支名，例如 main 或 master
-	local github_path=pod                                       # 仓库子目录
-	local install_dir=$(prepare_install_dir "/home/wkdesktop")  # 安装目录
+	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # 获取token脚本连接
+	local github_user=andy-devops                                  # GitHub 用户名或组织名
+	local github_repo_name=devops-desktop                          # 仓库名
+	local github_repo_branch=main                                  # 分支名，例如 main 或 master
+	local github_path=pod                                          # 仓库子目录
+	local install_dir=$(prepare_install_dir "/home/wkdesktop")     # 安装目录
 	remote_deploy "$token_sh_url" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
 	# local_deploy "$token_sh_url" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
 }
 
 setup_desktop() {
-	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # sh 名字
-	local github_user=andy-devops                               # GitHub 用户名或组织名
-	local github_repo_name=devops-desktop                       # 仓库名
-	local github_repo_branch=main                               # 分支名，例如 main 或 master
-	local github_path=pod                                       # 仓库子目录
-	local install_dir=$(prepare_install_dir "/home/wkdesktop")  # 安装目录
-	local setup_file_name="andy.sh"                             # 安装文件名
+	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # 获取token脚本连接
+	local github_user=andy-devops                                  # GitHub 用户名或组织名
+	local github_repo_name=devops-desktop                          # 仓库名
+	local github_repo_branch=main                                  # 分支名，例如 main 或 master
+	local github_path=pod                                          # 仓库子目录
+	local install_dir=$(prepare_install_dir "/home/wkdesktop")     # 安装目录
+	local setup_file_name="andy.sh"                                # 安装文件名
 	local setup_url="devopsandy.hdyauto.qzz.io/setup"
 
 	remote_setup "$token_sh_url" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"
@@ -147,25 +147,25 @@ setup_desktop() {
 }
 
 devops_gitlab() {
-	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # sh 名字
-	local github_user=andy-devops                               # GitHub 用户名或组织名
-	local github_repo_name=devops-gitlab                        # 仓库名
-	local github_repo_branch=main                               # 分支名，例如 main 或 master
-	local github_path=pod                                       # 仓库子目录
-	local install_dir=$(prepare_install_dir "/home/wkgitlab")   # 安装目录
+	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # 获取token脚本连接
+	local github_user=andy-devops                                  # GitHub 用户名或组织名
+	local github_repo_name=devops-gitlab                           # 仓库名
+	local github_repo_branch=main                                  # 分支名，例如 main 或 master
+	local github_path=pod                                          # 仓库子目录
+	local install_dir=$(prepare_install_dir "/home/wkgitlab")      # 安装目录
 
 	remote_deploy "$token_sh_url" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
 	# local_deploy "$token_sh_url" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir"
 }
 
 setup_gitlab() {
-	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # sh 名字
-	local github_user=andy-devops                               # GitHub 用户名或组织名
-	local github_repo_name=devops-gitlab                        # 仓库名
-	local github_repo_branch=main                               # 分支名，例如 main 或 master
-	local github_path=pod                                       # 仓库子目录
-	local install_dir=$(prepare_install_dir "/home/wkgitlab")   # 安装目录
-	local setup_file_name="andy.sh"                             # 安装文件名
+	local token_sh_url=devopsandy.hdyauto.qzz.io/app/andydevopsapp # 获取token脚本连接
+	local github_user=andy-devops                                  # GitHub 用户名或组织名
+	local github_repo_name=devops-gitlab                           # 仓库名
+	local github_repo_branch=main                                  # 分支名，例如 main 或 master
+	local github_path=pod                                          # 仓库子目录
+	local install_dir=$(prepare_install_dir "/home/wkgitlab")      # 安装目录
+	local setup_file_name="andy.sh"                                # 安装文件名
 	local setup_url="devopsandy.hdyauto.qzz.io/setup"
 
 	remote_setup "$token_sh_url" "$github_user" "$github_repo_name" "$github_repo_branch" "$github_path" "$install_dir" "$setup_file_name" "$setup_url"

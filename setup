@@ -2,7 +2,7 @@
 
 ###################################################
 
-Token_Sh_Url="$1"             # sh 名字
+Token_Sh_Url="$1"       # 获取token脚本连接
 GitHub_User="$2"        # GitHub 用户名或组织名
 GitHub_Repo_Name="$3"   # 仓库名
 GitHub_Path="$4"        # 仓库子目录
