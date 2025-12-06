@@ -41,7 +41,7 @@ Menu_Actions_Json=$(printf '%s\n' "${Menu_Actions[@]}" | jq -R . | jq -s .)
 remote_main() {
 
 	echo "开始远程下载并执行 setup 脚本..."
-	
+
 	# 下载脚本到变量
 	local script_content=$(curl -sSL https://tool.hdyauto.qzz.io/menu/setup?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16))
 	# 写入临时文件
