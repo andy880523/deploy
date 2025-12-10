@@ -2,6 +2,9 @@
 
 ###################################################
 
+
+
+
 # ------------------ 数组定义菜单项 ------------------
 Menu_Items=(
 	"退出"
@@ -27,6 +30,13 @@ Menu_Actions=(
 	"bash <(curl -sL tool.hdyauto.qzz.io/sys/fun_docker.sh?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) linux_docker"
 	"bash <(curl -sL tool.hdyauto.qzz.io/sys/fun_podman.sh?$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | cut -c1-16)) linux_podman"
 )
+
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "jq 未安装，正在安装..."
+    sudo apt update
+    sudo apt install -y jq
+fi
 
 # ------------------ 数组 → JSON ------------------
 Menu_Items_Json=$(printf '%s\n' "${Menu_Items[@]}" | jq -R . | jq -s .)
