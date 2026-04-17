@@ -14,7 +14,7 @@ Install_Dir="$6"        # 安装目录
 # ------------------ 数组定义菜单项 ------------------
 Menu_Items=(
 	"退出"
-	"（部署） ${GitHub_Path}"
+	"(部署) ${GitHub_Path}"
 	"安装 Docker"
 	"安装 Podman"
 	"管理 Docker"
